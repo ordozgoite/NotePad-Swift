@@ -45,6 +45,10 @@ class NotesViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! EditTextViewController
         
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destinationVC.selectedNote = notesArray[indexPath.row]
+        }
+        
         // Passar objeto Notes() para a próxima View Controller
         
     }

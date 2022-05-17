@@ -11,16 +11,12 @@ class EditTextViewController: UIViewController {
     
     @IBOutlet weak var noteText: UITextView!
     
-    var selectedNote: Notes? {
-        didSet {
-            noteText.text = selectedNote?.text ?? ""
-        }
-    }
-    var noteIndex: Int?
+    var selectedNote: Notes?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        noteText.text = selectedNote?.text ?? ""
         noteText.textStorage.delegate = self
     }
 }
