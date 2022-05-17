@@ -12,6 +12,7 @@ class EditTextViewController: UIViewController {
     @IBOutlet weak var noteText: UITextView!
     
     var selectedNote: Notes?
+    let notesVC = NotesViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,5 +25,8 @@ class EditTextViewController: UIViewController {
 extension EditTextViewController: NSTextStorageDelegate {
     func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorage.EditActions, range editedRange: NSRange, changeInLength delta: Int) {
         print("string: \(textStorage.string)")
+        
+        selectedNote?.text = textStorage.string
+        notesVC.saveItems()
     }
 }
