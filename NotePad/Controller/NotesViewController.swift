@@ -27,23 +27,23 @@ class NotesViewController: UITableViewController {
     //MARK: - Add New Category
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
-
+        
         // Add New Note In The List
-
+        
         let newNote = Notes(context: self.context)
         newNote.title = "New Note"
         newNote.text = ""
         
         notesArray.append(newNote)
-
+        
         saveItems()
-
+        
         // Go To The New Note
         
         performSegue(withIdentifier: "GoToNote", sender: self)
-
+        
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! EditTextViewController
         
@@ -87,25 +87,42 @@ extension NotesViewController {
 
 extension NotesViewController {
     func saveItems() {
-
+        
         do {
             try context.save()
         } catch {
             print("Error saving context, \(error)")
         }
-
+        
         tableView.reloadData()
     }
-
+    
     func loadItems(with request: NSFetchRequest<Notes> = Notes.fetchRequest()) {
-
+        
         do {
             notesArray = try context.fetch(request)
         } catch {
             print("Error fetching data from context, \(error)")
         }
-
+        
         tableView.reloadData()
+    }
+}
+
+//MARK: - Delete Note
+
+extension NotesViewController {
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [unowned self] action, view, completionHandler in
+            
+            print("\n\n\n===ENTROU AQUI===\n\n\n")
+            
+            context.delete(notesArray[indexPath.row])
+            notesArray.remove(at: indexPath.row)
+            saveItems()
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
     }
 }
 
