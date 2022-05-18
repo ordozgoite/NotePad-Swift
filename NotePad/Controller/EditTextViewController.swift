@@ -20,6 +20,30 @@ class EditTextViewController: UIViewController {
         noteText.text = selectedNote?.text ?? ""
         noteText.textStorage.delegate = self
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        let breakLine = "\n"
+        let noteText = (selectedNote?.text) ?? ""
+        
+        if noteText != "" {
+            if noteText.contains(breakLine) {
+                if let token = selectedNote?.text?.components(separatedBy: breakLine) {
+                    selectedNote?.title = token[0]
+                    notesVC.saveItems()
+                    navigationController?.viewControllers.first?.viewDidLoad()
+                }
+            } else {
+                print("PASSOU AQUI!!!")
+                selectedNote?.title = noteText
+                notesVC.saveItems()
+                navigationController?.viewControllers.first?.viewDidLoad()
+            }
+        } else {
+            selectedNote?.title = "New Note"
+            notesVC.saveItems()
+            navigationController?.viewControllers.first?.viewDidLoad()
+        }
+    }
 }
 
 extension EditTextViewController: NSTextStorageDelegate {

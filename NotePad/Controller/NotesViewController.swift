@@ -17,6 +17,8 @@ class NotesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("VIEW DID LOAD")
+        
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         loadItems()
