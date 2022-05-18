@@ -9,48 +9,53 @@ import UIKit
 
 class EditTextViewController: UIViewController {
     
-    @IBOutlet weak var noteText: UITextView!
+    @IBOutlet weak var noteTextField: UITextView!
     
     var selectedNote: Notes?
-    let notesVC = NotesViewController()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        noteText.text = selectedNote?.text ?? ""
-        noteText.textStorage.delegate = self
+        noteTextField.text = selectedNote?.text!
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        
+        let noteText = noteTextField.text!
+        selectedNote?.text = noteText
+        
         let breakLine = "\n"
-        let noteText = (selectedNote?.text) ?? ""
         
         if noteText != "" {
             if noteText.contains(breakLine) {
                 if let token = selectedNote?.text?.components(separatedBy: breakLine) {
                     selectedNote?.title = token[0]
-                    notesVC.saveItems()
-                    navigationController?.viewControllers.first?.viewDidLoad()
                 }
             } else {
-                print("PASSOU AQUI!!!")
+                print(noteText)
                 selectedNote?.title = noteText
-                notesVC.saveItems()
-                navigationController?.viewControllers.first?.viewDidLoad()
+                print(selectedNote?.title)
             }
         } else {
             selectedNote?.title = "New Note"
-            notesVC.saveItems()
-            navigationController?.viewControllers.first?.viewDidLoad()
+        }
+        
+        
+        
+        
+        saveItems()
+        navigationController?.viewControllers.first?.viewDidLoad()
+    }
+}
+
+extension EditTextViewController {
+    func saveItems() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context, \(error)")
         }
     }
 }
 
-extension EditTextViewController: NSTextStorageDelegate {
-    func textStorage(_ textStorage: NSTextStorage, didProcessEditing editedMask: NSTextStorage.EditActions, range editedRange: NSRange, changeInLength delta: Int) {
-        print("string: \(textStorage.string)")
-        
-        selectedNote?.text = textStorage.string
-        notesVC.saveItems()
-    }
-}

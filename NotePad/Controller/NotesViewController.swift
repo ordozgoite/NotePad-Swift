@@ -17,7 +17,7 @@ class NotesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("VIEW DID LOAD")
+        print("\n\n\nVIEW DID LOAD\n\n\n")
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
@@ -49,6 +49,8 @@ class NotesViewController: UITableViewController {
         
         if let indexPath = tableView.indexPathForSelectedRow {
             destinationVC.selectedNote = notesArray[indexPath.row]
+        } else {
+            destinationVC.selectedNote = notesArray.last
         }
         
         // Passar objeto Notes() para a próxima View Controller

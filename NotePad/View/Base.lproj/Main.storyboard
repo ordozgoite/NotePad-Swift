@@ -73,7 +73,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ecx-gd-rC0"/>
                     <connections>
-                        <outlet property="noteText" destination="uxB-gg-7bD" id="WIV-Yu-O1v"/>
+                        <outlet property="noteTextField" destination="uxB-gg-7bD" id="ufj-fg-Tu5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGR-la-Flj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
